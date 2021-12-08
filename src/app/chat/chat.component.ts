@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
   isCreateRoomModalShow = false;
+  isNewFriendModalShow = false;
+  leftNavIndex = 0;
 
   constructor() {}
 

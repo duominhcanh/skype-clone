@@ -5,9 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
-import { FriendComponent } from './friend/friend.component';
 import { LoginComponent } from './login/login.component';
-import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
@@ -15,16 +13,11 @@ import { ChatComponent } from './chat/chat.component';
     AppComponent,
     RegisterComponent,
     ProfileComponent,
-    FriendComponent,
     LoginComponent,
-    RoomComponent,
-    ChatComponent
+    ChatComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
