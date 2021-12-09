@@ -2,7 +2,7 @@
   <div class="w-1/4 flex flex-col overflow-hidden">
     <div class="px-4 py-2">
       <div class="flex flex-row">
-        <span class="font-medium text-gray-800 flex-grow">Dương Minh Cảnh</span>
+        <span class="font-medium text-gray-800 flex-grow">{{currentUser.name}}</span>
         <a routerLink="/profile"><i class="bi bi-three-dots"></i></a>
       </div>
     </div>
@@ -29,8 +29,9 @@
     </div>
     <div *ngIf="leftNavIndex == 0" class="flex overflow-y-scroll scrollbar-none">
       <div class="p-2 w-full">
-        <div *ngFor="let room of rooms" class="px-2 w-full flex py-3 hover:bg-blue-100 rounded-lg cursor-pointer">
-          <span class="text-gray-700">Nhóm chat 01</span>
+        <div *ngFor="let room of rooms" [ngClass]="{'active': selectedRoom == room}" (click)="selectRoom(room)"
+          class="room px-2 w-full flex py-3 hover:bg-blue-100 rounded-lg cursor-pointer">
+          <span class="text-gray-700">{{room.name}}</span>
         </div>
 
       </div>
@@ -47,56 +48,33 @@
     </div>
     <div *ngIf="leftNavIndex == 1" class="flex overflow-y-scroll scrollbar-none">
       <div class="p-2 w-full">
-        <div *ngFor="let room of rooms" class="px-2 w-full flex py-3 hover:bg-blue-100 rounded-lg cursor-pointer">
-          <span class="text-gray-700">Mẹ ơi bạn con gọi</span>
+        <div *ngFor="let friend of friends" class="px-2 w-full flex py-3 hover:bg-blue-100 rounded-lg cursor-pointer">
+          <span class="text-gray-700">{{friend.name}}</span>
         </div>
-
       </div>
     </div>
 
   </div>
-  <div class="w-3/4 flex flex-col shadow-lg border-l border-gray-100">
+  <div *ngIf="selectedRoom != null" class="w-3/4 flex flex-col shadow-lg border-l border-gray-100">
     <div class="flex flex-row px-6 py-1 border-b">
       <div class="flex flex-col flex-grow">
-        <span class="font-medium text-lg text-gray-800">Nhóm chat 01</span>
-        <span class="text-gray-600 text-sm">29 em</span>
+        <span class="font-medium text-lg text-gray-800">{{selectedRoom.name}}</span>
       </div>
       <a routerLink="/room" class="block m-auto"><i class="bi bi-three-dots"></i></a>
     </div>
     <div class="flex-grow overflow-auto">
       <div class="flex flex-col">
 
-        <div class="flex flex-col py-2 px-6">
-          <span class="flex-grow text-sm text-gray-600">Dương Minh Cảnh</span>
-          <div class="flex flex-row">
-            <div class="rounded-lg bg-gray-200 px-3 py-2">
-              <span class="flex-grow">Hello moi nguoi</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col py-2 px-6">
-          <span class="flex-grow text-sm text-gray-600">Dương Minh Cảnh</span>
-          <div class="flex flex-row">
-            <div class="rounded-lg bg-gray-200 px-3 py-2">
-              <span class="flex-grow">Hello moi nguoi</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col py-2 px-6">
-          <div class="flex flex-row-reverse">
-            <div class="rounded-lg bg-blue-200 px-3 py-2">
-              <span class="flex-grow">Hello moi nguoi</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col py-2 px-6">
-          <span class="flex-grow text-sm text-gray-600">Dương Minh Cảnh</span>
-          <div class="flex flex-row">
-            <div class="rounded-lg bg-gray-200 px-3 py-2">
-              <span class="flex-grow">Hello moi nguoi</span>
+        <div *ngFor="let message of messages" class="flex flex-col py-2 px-6">
+          <span *ngIf="message.userId != currentUser.id"
+            class="flex-grow text-sm text-gray-600">{{message.user.name}}</span>
+          <div
+            [ngClass]="{'flex-row': message.userId != currentUser.id, 'flex-row-reverse': message.userId == currentUser.id}"
+            class="flex ">
+            <div
+              [ngClass]="{'bg-gray-200': message.userId != currentUser.id, 'bg-blue-200': message.userId == currentUser.id}"
+              class="rounded-lg px-3 py-2">
+              <span class="flex-grow">{{message.content}}</span>
             </div>
           </div>
         </div>
@@ -106,7 +84,8 @@
     <div class="pb-4">
       <div class="bg-gray-200 border border-transparent rounded-full p-3 px-4 flex flex-row m-6">
         <i class="bi bi-emoji-expressionless text-gray-500 text-xl"></i>
-        <input class="bg-gray-200 outline-none ml-4 flex-grow" placeholder="Type a message" />
+        <input (keyup.enter)="sendMessage()" [(ngModel)]="newMessage" class="bg-gray-200 outline-none ml-4 flex-grow"
+          placeholder="Type a message" />
         <i class="bi bi-pen text-gray-500 text-xl"></i>
       </div>
     </div>
@@ -116,31 +95,25 @@
 <div class="modal p-4" [ngClass]="{'active': isCreateRoomModalShow}" style="background-color: rgba(97, 97, 97, 0.315);">
   <div class="m-auto p-4 bg-white border border-gray-50 rounded-lg lg:w-1/2">
     <div class="flex flex-row">
-      <button (click)="isNewFriendModalShow = false"><i class="bi text-xl m-auto bi-arrow-left"></i></button>
-      <span class="font-medium text-xl text-gray-700 flex-grow ml-4">Danh sách bạn bè</span>
+      <button (click)="isCreateRoomModalShow = false"><i class="bi text-xl m-auto bi-arrow-left"></i></button>
+      <span class="font-medium text-xl text-gray-700 flex-grow ml-4">Tạo phòng chat mới</span>
     </div>
 
-    <div class="mt-12 flex flex-col space-y-2">
-      <div class="flex flex-row">
-        <span class="m-auto flex-grow">Dương Minh Cảnh</span>
-        <button class="bg-red-500 rounded-lg px-3 py-2 text-white ml-2">Huỷ kết bạn</button>
-      </div>
-      <div class="flex flex-row">
-        <span class="m-auto flex-grow">Dương Minh Cảnh</span>
-        <button class="bg-red-500 rounded-lg px-3 py-2 text-white ml-2">Huỷ kết bạn</button>
-      </div>
-      <div class="flex flex-row">
-        <span class="m-auto flex-grow">Dương Minh Cảnh</span>
-        <button class="bg-red-500 rounded-lg px-3 py-2 text-white ml-2">Huỷ kết bạn</button>
-      </div>
-      <div class="flex flex-row">
-        <span class="m-auto flex-grow">Dương Minh Cảnh</span>
-        <button class="bg-red-500 rounded-lg px-3 py-2 text-white ml-2">Huỷ kết bạn</button>
-      </div>
-      <div class="flex flex-row">
-        <span class="m-auto flex-grow">Dương Minh Cảnh</span>
-        <button class="bg-red-500 rounded-lg px-3 py-2 text-white ml-2">Huỷ kết bạn</button>
-      </div>
+    <label class="mt-20 font-medium text-gray-600 block">Tên phòng</label>
+    <input [(ngModel)]="newRoomName" class="mt-2 w-full rounded-lg bg-gray-50 px-3 py-2 border outline-none" type="text"
+      placeholder="Nhập tên phòng" />
+
+    <div class="mt-8">
+      <label *ngFor="let member of newRoomMembers"
+        class="px-2 w-full flex flex-row py-3 hover:bg-blue-100 rounded-lg cursor-pointer">
+        <span class="text-gray-700 flex-grow">{{member.name}}</span>
+        <input type="checkbox" [checked]="member.selected" (change)="member.selected = ! member.selected"
+          class="m-auto" />
+      </label>
+    </div>
+
+    <div class="mt-8">
+      <button (click)="addRoom()" class="rounded-lg bg-blue-500 text-white px-3 py-2">Tạo phòng</button>
     </div>
   </div>
 </div>
@@ -153,11 +126,11 @@
     </div>
 
     <label class="mt-12 block font-medium text-gray-600">Id người muốn kết bạn</label>
-    <input class="mt-2 rounded-lg bg-gray-50 px-3 py-2 border w-full outline-none" type="text"
+    <input [(ngModel)]="newFriendId" class="mt-2 rounded-lg bg-gray-50 px-3 py-2 border w-full outline-none" type="text"
       placeholder="Nhập mã người dùng" />
 
     <div class="mt-8 flex flex-row-reverse">
-      <button class="rounded-lg bg-blue-500 text-white px-3 py-2">Thêm bạn</button>
+      <button (click)="addFriend()" class="rounded-lg bg-blue-500 text-white px-3 py-2">Thêm bạn</button>
     </div>
   </div>
 </div>

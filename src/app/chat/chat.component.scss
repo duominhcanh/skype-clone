@@ -16,3 +16,7 @@
 .modal.active {
   @apply pointer-events-auto opacity-100;
 }
+
+.room.active {
+  @apply bg-blue-200 #{!important};
+}

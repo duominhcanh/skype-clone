@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = Skype.Data
-build_property.ProjectDir = C:\Users\root\Desktop\code\backend\Skype\Skype.Data\
+build_property.ProjectDir = C:\Users\root\Desktop\code\skype\backend\Skype\Skype.Data\

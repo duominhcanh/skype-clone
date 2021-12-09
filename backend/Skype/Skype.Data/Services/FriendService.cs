@@ -1,4 +1,4 @@
-﻿using Skype.Data.Tables;
+using Skype.Data.Tables;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -27,7 +27,6 @@ namespace Skype.Data.Services
                 .Where(e => e.LeftId == value.LeftId && e.RightId == value.RightId)
                 .FirstOrDefault();
 
-            context.Friends.Remove(friend);
             context.Entry(friend).State = System.Data.Entity.EntityState.Deleted;
             await context.SaveChangesAsync();
         }

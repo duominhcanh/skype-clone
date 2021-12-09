@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/KsKJRHryqQb8Q1loINquS4j9LmCZlqGzBusnQ//SrZrd2ELmCtCyu01pBbafaQCJYJzUbruSAxkAbPsvWbGRg==",
+  "dgSpecHash": "hIFrQIhZZsbD1xWPuigwGkrVI7p2bSZvTNRPaDq58fLro0q7LRZPsUw43hmn9jyGXjhzyzh2y2ZZvlY0F87fGQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\root\\Desktop\\code\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
+  "projectFilePath": "C:\\Users\\root\\Desktop\\code\\skype\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\root\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\root\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

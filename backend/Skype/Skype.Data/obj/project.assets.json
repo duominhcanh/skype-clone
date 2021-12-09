@@ -1030,11 +1030,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\root\\Desktop\\code\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
+      "projectUniqueName": "C:\\Users\\root\\Desktop\\code\\skype\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
       "projectName": "Skype.Data",
-      "projectPath": "C:\\Users\\root\\Desktop\\code\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
+      "projectPath": "C:\\Users\\root\\Desktop\\code\\skype\\backend\\Skype\\Skype.Data\\Skype.Data.csproj",
       "packagesPath": "C:\\Users\\root\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\root\\Desktop\\code\\backend\\Skype\\Skype.Data\\obj\\",
+      "outputPath": "C:\\Users\\root\\Desktop\\code\\skype\\backend\\Skype\\Skype.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\root\\AppData\\Roaming\\NuGet\\NuGet.Config",
