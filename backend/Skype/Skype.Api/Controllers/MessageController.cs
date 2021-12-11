@@ -18,9 +18,9 @@ namespace Skype.Api.Controllers
 
     [HttpPost]
     [Route("add")]
-    public async Task Add(Message value)
+    public async Task<object> Add(Message value)
     {
-      await this.messageService.Add(value);
+      return await this.messageService.Add(value);
     }
 
     [HttpGet]
@@ -28,6 +28,13 @@ namespace Skype.Api.Controllers
     public async Task<object> GetByRoom(long id)
     {
       return await this.messageService.GetByRoom(id);
+    }
+
+    [HttpGet]
+    [Route("get")]
+    public async Task<object> Get(long id)
+    {
+      return await this.messageService.Get(id);
     }
   }
 }

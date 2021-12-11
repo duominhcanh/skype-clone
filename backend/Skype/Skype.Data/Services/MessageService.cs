@@ -14,10 +14,11 @@ namespace Skype.Data.Services
       this.context = context;
     }
 
-    public async Task Add(Message value)
+    public async Task<Message> Add(Message value)
     {
       this.context.Messages.Add(value);
       await context.SaveChangesAsync();
+      return value;
     }
 
 
@@ -26,6 +27,13 @@ namespace Skype.Data.Services
       return await this.context.Messages.AsNoTracking()
         .Where(e => e.RoomId == roomId)
         .ToArrayAsync();
+    }
+
+    public async Task<object> Get(long id)
+    {
+      return await this.context.Messages.AsNoTracking()
+        .Where(e => e.Id == id)
+        .FirstOrDefaultAsync();
     }
   }
 }

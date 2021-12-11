@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { AppService } from '../app.service';
+import { ChatSignalrClient } from '../core/chat.signalr';
 import { FriendDataService } from '../core/friend-data.service';
 import { MessageDataService } from '../core/message-data.service';
 import { RoomDataService } from '../core/room-data.service';
@@ -31,6 +33,8 @@ export class ChatComponent implements OnInit {
 
   newMessage: string = '';
 
+  chatHub?: ChatSignalrClient;
+
   constructor(
     private appService: AppService,
     private router: Router,
@@ -49,6 +53,19 @@ export class ChatComponent implements OnInit {
     this.currentUser = this.appService.currentUser;
     this.refreshFriendList();
     this.refreshRooms();
+
+    this.chatHub = new ChatSignalrClient(`${environment.apiUrl}hubs/chat`);
+    this.chatHub.messageReceived = (data) => {
+      if (data.roomId == this.selectedRoom.id) {
+        this.messageService.get(data.id).subscribe((message) => {
+          this.appendMessage(message);
+        });
+      }
+    };
+
+    this.chatHub.start().then(() => {
+      console.log('Connected to chathub');
+    });
   }
 
   sendMessage() {
@@ -60,7 +77,12 @@ export class ChatComponent implements OnInit {
       })
       .subscribe((data) => {
         this.newMessage = '';
+        this.chatHub?.send(data);
       });
+  }
+
+  appendMessage(message: any) {
+    this.messages.push(message);
   }
 
   refreshRooms() {
@@ -79,7 +101,6 @@ export class ChatComponent implements OnInit {
     this.selectedRoom = room;
 
     this.messageService.getByRoom(room.id).subscribe((data) => {
-      console.log(data);
       this.messages = data;
     });
   }

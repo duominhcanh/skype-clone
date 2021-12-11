@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Skype.Api.Hubs;
 using Skype.Data;
 using Skype.Data.Services;
 
@@ -38,6 +39,7 @@ namespace Skype.Api
             });
       });
       services.AddControllers();
+      services.AddSignalR();
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Skype.Api", Version = "v1" });
@@ -63,6 +65,7 @@ namespace Skype.Api
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
+        endpoints.MapHub<ChatHub>("/hubs/chat");
       });
     }
   }

@@ -14,6 +14,11 @@ export class MessageDataService {
     return this.http.get<any>(url);
   }
 
+  get(id: number): Observable<any> {
+    const url = `${environment.apiUrl}message/get?id=${id}`;
+    return this.http.get<any>(url);
+  }
+
   add(args: {
     roomId: number;
     content: string;
